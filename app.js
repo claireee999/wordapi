@@ -4,7 +4,7 @@ const app = express();
 
 // Update the following with your MongoDB Atlas connection details
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 const mongoURI = process.env.MONGODB_URI;
@@ -39,6 +39,7 @@ async function run(res) {
     // Find a document at the random index
     const randomWordDocument = await wordsCollection.findOne({}, { skip: randomIndex });
 
+
     // Send the word as JSON response
     res.json({ word: randomWordDocument.word });
 
@@ -59,6 +60,30 @@ async function run(res) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  app.post('/random-word', async (req, res) => {
+    try {
+        const { number, word } = req.body;
+  
+      if (id !== null) {
+        const result = await wordsCollection.updateOne(
+            { word: word }, 
+            {
+                $set: { [`numbers.${number}`]: { count: 0 } },
+                $inc: { [`numPlayersPerTry.${number}.count`]: 1 } 
+            }
+        )
+        res.json({ message: 'Guess successfully recorded.', result });
+      } else {
+        res.status(400).json({ error: 'Guess not provided.' });
+      }
+    } catch (error) {
+      console.error('Error recording guess:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+ 
 
   // Start the server
   const port = process.env.PORT || 5000;

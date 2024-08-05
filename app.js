@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors()); 
 // Update the following with your MongoDB Atlas connection details
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');

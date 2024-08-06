@@ -4,8 +4,8 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from this origin
-  methods: ['GET', 'POST'], // Allow only specific HTTP methods if needed
+  origin: '*', 
+  methods: ['GET', 'POST'], 
 }));
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -56,7 +56,7 @@ async function run(res) {
 
 
   // Endpoint to get a random word
-  app.get('/random-word/', async (req, res) => {
+  app.get('/random-word', async (req, res) => {
     try {
         run(res).catch(console.dir);
     } catch (error) {
@@ -65,7 +65,7 @@ async function run(res) {
     }
   });
 
-  app.post('/random-word/', async (req, res) => {
+  app.post('/random-word', async (req, res) => {
     try {
         const { number, word } = req.body;
   

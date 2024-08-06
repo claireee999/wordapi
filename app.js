@@ -3,10 +3,7 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors({
-  origin: '*', 
-  methods: ['GET', 'POST'], 
-}));
+app.use(cors());
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
